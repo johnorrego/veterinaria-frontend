@@ -2,22 +2,20 @@
 
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-
-            <div class="field">
-                <label for="mascota">Mascota</label>
-                <p-dropdown [options]="mascotasDisponibles" [(ngModel)]="historiaForm.mascota_id"
-                    optionValue="idmascota" inputId="idmascota" placeholder="Seleccione una mascota"
-                    optionLabel="nombremascota">
-                </p-dropdown>
+            <div class="formgroup-inline">
+                <div class="field">
+                    <p-dropdown [options]="mascotasDisponibles" [(ngModel)]="historiaForm.mascota_id"
+                        optionValue="idmascota" inputId="idmascota" placeholder="Seleccione una mascota"
+                        optionLabel="nombremascota">
+                    </p-dropdown>
+                </div>
+                <div class="p-field">
+                    <p-calendar [showIcon]="true" placeholder="Fecha Ingreso" [(ngModel)]="historiaForm.fecha_creacion">
+                    </p-calendar>
+                </div>
+                <button pButton pRipple label="Guardar registro" icon="pi pi-plus" (click)="saveHistoria()"
+                    class="p-button-success p-mr-2"></button>
             </div>
-            <div class="p-field">
-                <label for="icon">Fecha Ingreso</label>
-                <p-calendar [showIcon]="true" [(ngModel)]="historiaForm.fecha_creacion">
-                </p-calendar>
-            </div>
-            <button pButton pRipple label="Guardar registro" icon="pi pi-plus" (click)="saveHistoria()"
-                class="p-button-success p-mr-2"></button>
-
         </ng-template>
     </p-toolbar>
 
@@ -48,8 +46,7 @@
                 </td>
 
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" (click)="editarHistoria(historia)"
-                        class="p-button-rounded p-button-secondary"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary"></button>
 
                     <button pButton pRipple icon="pi pi-trash" (click)="deleteHistoria(historia)"
                         class="p-button-rounded p-button-danger"></button>
@@ -187,7 +184,8 @@
                         <button pButton pRipple icon="pi pi-pencil"
                             class="p-button-rounded p-button-secondary"></button>
 
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"></button>
+                        <button pButton pRipple icon="pi pi-trash" (click)="deleteDetalles(detalle)"
+                            class="p-button-rounded p-button-danger"></button>
                     </td>
                 </tr>
             </ng-template>

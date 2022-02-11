@@ -101,25 +101,60 @@ export class AppComponent implements OnInit {
       (res) => {
         this.detalleHistoriaForm = new DetalleHistoria();
         this.closeForm();
+        this.getHistorias();
       }
     )
   }
 
 
-  editarHistoria(historiaForm: Historiaclinica) {
-    this.parametrizacionService.editarHistorias(historiaForm).subscribe(
+  // editarHistoria(historiaForm: Historiaclinica) {
+  //   this.parametrizacionService.editarHistorias(historiaForm).subscribe(
+  //     (res) => {
+  //       console.log(res);
+  //       this.historiaForm = new Historiaclinica();
+  //       this.getHistorias();
+  //     }
+  //   );
+  // }
+
+
+  // edithistoria(history: Historiaclinica) {
+  //   this.historiaForm = { ...history };
+  // }
+
+  // confirmar() {
+
+  //   if (this.historiaForm.idhistoriaclinica) {
+  //     this.parametrizacionService.editarHistorias(this.historiaForm).subscribe(
+  //       (res) => {
+  //         console.log(res);
+  //         this.getHistorias();
+  //       }
+  //     );
+  //   } else {
+  //     this.parametrizacionService.guardarHistoria(this.historiaForm).subscribe(
+  //       (res) => {
+  //         console.log(res);
+  //         this.getHistorias();
+  //       }
+  //     );
+  //   }
+  // }
+
+  deleteHistoria(historia: Historiaclinica) {
+    this.parametrizacionService.eliminarHistoria(historia).subscribe(
       (res) => {
-        this.historiaForm = new Historiaclinica();
+        this.historiaForm = res;
         this.getHistorias();
       }
     );
   }
 
-  deleteHistoria(historia: Historiaclinica) {
-    this.parametrizacionService.eliminarHistoria(historia).subscribe(
+  deleteDetalles(detalle: DetalleHistoria) {
+    this.parametrizacionService.eliminarDetalles(detalle).subscribe(
       (res) => {
-        console.log(res)
-        this.historiaForm = res;
+        this.detalleHistoriaForm = res;
+        this.getDetalleHistorias();
         this.getHistorias();
       }
     );

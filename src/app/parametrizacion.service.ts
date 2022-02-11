@@ -46,6 +46,10 @@ export class ParametrizacionService {
         return this.http.delete('http://localhost:8080/controller/historias/' + historia.idhistoriaclinica, { headers: this.createRequestHeader() });
     }
 
+    eliminarDetalles(detalle: DetalleHistoria): Observable<any> {
+        return this.http.delete('http://localhost:8080/controller/detalles/' + detalle.iddetallehistoriaclinica, { headers: this.createRequestHeader() });
+    }
+
 
     editarHistorias(editedHistoria: Historiaclinica): Observable<any> {
         return this.http.put('http://localhost:8080/controller/historias/' + editedHistoria.idhistoriaclinica, { headers: this.createRequestHeader() });
