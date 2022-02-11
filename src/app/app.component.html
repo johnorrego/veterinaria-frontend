@@ -1,0 +1,197 @@
+<p-panel header="HISTORIAL CLINICO">
+
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+
+            <div class="field">
+                <label for="mascota">Mascota</label>
+                <p-dropdown [options]="mascotasDisponibles" [(ngModel)]="historiaForm.mascota_id"
+                    optionValue="idmascota" inputId="idmascota" placeholder="Seleccione una mascota"
+                    optionLabel="nombremascota">
+                </p-dropdown>
+            </div>
+            <div class="p-field">
+                <label for="icon">Fecha Ingreso</label>
+                <p-calendar [showIcon]="true" [(ngModel)]="historiaForm.fecha_creacion">
+                </p-calendar>
+            </div>
+            <button pButton pRipple label="Guardar registro" icon="pi pi-plus" (click)="saveHistoria()"
+                class="p-button-success p-mr-2"></button>
+
+        </ng-template>
+    </p-toolbar>
+
+    <br><br>
+
+    <p-table [columns]="columnasHistorias" [value]="historias" [rows]="8" [paginator]="true" [rowHover]="true"
+        dataKey="id">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Mascota ID</th>
+                <th>Fecha</th>
+                <th>Detalles de historia</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-historia>
+            <tr>
+                <td>{{historia.idhistoriaclinica}}</td>
+                <td>{{historia.mascota_id}}</td>
+                <td>{{historia.fecha_creacion | date: 'longDate'}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-plus" (click)="showForm()"
+                        class="p-button-rounded p-button-success"></button>
+
+                    <button pButton pRipple icon="pi pi-eye" (click)="openForm()" *ngIf="historia.cantidaddetalles > 0"
+                        class="p-button-rounded p-button-info"></button>
+                </td>
+
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" (click)="editarHistoria(historia)"
+                        class="p-button-rounded p-button-secondary"></button>
+
+                    <button pButton pRipple icon="pi pi-trash" (click)="deleteHistoria(historia)"
+                        class="p-button-rounded p-button-danger"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+</p-panel>
+
+
+
+<p-dialog [(visible)]="displayModal" header="Detalles Historia Clinica" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname2">Temperatura</label>
+                <input id="float-input" type="text" [(ngModel)]="detalleHistoriaForm.temperatura" pInputText>
+            </div>
+            <div class="field col">
+                <label for="lastname2">Peso</label>
+                <input id="float-input" type="text" [(ngModel)]="detalleHistoriaForm.peso" pInputText>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname2">Frecuencia Cardiaca</label>
+                <input id="float-input" type="number" [(ngModel)]="detalleHistoriaForm.frecuencia_cardiaca" pInputText>
+            </div>
+            <div class="field col">
+                <label for="lastname2">Frecuencia Respiratoria</label>
+                <input id="float-input" type="number" [(ngModel)]="detalleHistoriaForm.frecuencia_respiratoria"
+                    pInputText>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname2">Fecha Examen</label>
+                <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="detalleHistoriaForm.fecha_hora"
+                    appendTo="body"></p-calendar>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="colaborador">Colaborador</label>
+                <p-dropdown [options]="colaboradoresDisponibles" [(ngModel)]="detalleHistoriaForm.colaborador_id"
+                    optionValue="idcolaborador" inputId="idcolaborador" placeholder="Seleccione colaborador"
+                    optionLabel="nombrecolaborador">
+                </p-dropdown>
+            </div>
+            <div class="field col">
+                <label for="historiaClinica">Historia Clinica</label>
+                <p-dropdown [options]="historias" [(ngModel)]="detalleHistoriaForm.historia_clinica_id"
+                    optionValue="idhistoriaclinica" inputId="idhistoriaclinica"
+                    placeholder="Seleccione la historia clinica" optionLabel="idhistoriaclinica">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname2">Alimentacion</label>
+                <input id="alimentacion" type="text" [(ngModel)]="detalleHistoriaForm.alimentacion" pInputText>
+            </div>
+            <div class="field col">
+                <label for="lastname2">Habitad</label>
+                <input id="habitad" type="text" [(ngModel)]="detalleHistoriaForm.habitad" pInputText>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname2">Observacion</label>
+                <input id="observacion" type="text" [(ngModel)]="detalleHistoriaForm.observacion" pInputText>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" (click)="closeForm()"
+            class="p-button-warning"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="saveDetalle()"
+            class="p-button-success"></button>
+    </ng-template>
+
+</p-dialog>
+
+
+
+
+<p-dialog [(visible)]="displayModalDetalle" header="Detalles Historia Clinica" [modal]="true" styleClass="p-fluid">
+
+    <p-panel header="Listado">
+
+        <p-table [columns]="columnasDetalles" [value]="detalles" [rows]="8" [paginator]="true" [rowHover]="true"
+            dataKey="id">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Id</th>
+                    <th>Temperatura</th>
+                    <th>Peso</th>
+                    <th>Frecuencia Cardiaca</th>
+                    <th>Frecuencia Respiratoria</th>
+                    <th>Fecha Atencion</th>
+                    <th>Alimentacion</th>
+                    <th>Habitad</th>
+                    <th>Observacion</th>
+                    <th>Colaborador</th>
+                    <th>Historia Clinica</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detalle>
+                <tr>
+                    <td>{{detalle.iddetallehistoriaclinica}}</td>
+                    <td>{{detalle.temperatura}}</td>
+                    <td>{{detalle.peso}}</td>
+                    <td>{{detalle.frecuencia_cardiaca}}</td>
+                    <td>{{detalle.frecuencia_respiratoria}}</td>
+                    <td>{{detalle.fecha_hora | date: 'longDate'}}</td>
+                    <td>{{detalle.alimentacion}}</td>
+                    <td>{{detalle.habitad}}</td>
+                    <td>{{detalle.observacion}}</td>
+                    <td>{{detalle.colaborador_id}}</td>
+                    <td>{{detalle.historia_clinica_id}}</td>
+
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-button-rounded p-button-secondary"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </p-panel>
+</p-dialog>
